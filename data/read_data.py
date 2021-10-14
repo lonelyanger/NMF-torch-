@@ -54,7 +54,7 @@ def Normalize(data):
     mx = np.max(data)
     mn = np.min(data)
     # return data/(mx+0.0001)
-    return (data - m) / (mx - mn)
+    return (data - mn) / (mx - mn+0.0001)
 
 def read_data(str_name, Normal=1):
     """

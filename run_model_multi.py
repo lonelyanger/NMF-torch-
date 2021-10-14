@@ -44,7 +44,7 @@ if __name__ == "__main__":
         # loss.backward()
         model.update_params()
         # output loss
-        if i%50==0:
+        if i%20==0:
             H=model.getH()
             print("it:",i)
             for v in range(DataSet.view_num):
@@ -52,7 +52,7 @@ if __name__ == "__main__":
                 y_preds, scores, ACC, NMI = Clustering(Hv, DataSet.labels.ravel(), DataSet.nClass)
                 if ACC>accmax:
                     accmax=ACC
-                print("loss is : ",loss[v].item())
+            print("loss is : ",loss[v].item())
      
     H=model.getH()
     for v in range(DataSet.view_num):
@@ -60,7 +60,7 @@ if __name__ == "__main__":
         y_preds, scores, ACC, NMI = Clustering(Hv, DataSet.labels.ravel(), DataSet.nClass)
         if ACC>accmax:
             accmax=ACC
-        print("loss is : ",loss[v].item())
+    print("loss is : ",loss[v].item())
     print("MAXACC is ",accmax)
     print("--------Pretrain End!----------")
 
