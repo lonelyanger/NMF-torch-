@@ -17,8 +17,6 @@ if __name__ == "__main__":
     DSname='./datasets/handwritten.mat'
     DataSet=read_data(DSname)
 
-    
-    # Sn=torch.zeros(Sn.shape)
     op=[]
     nSmp=DataSet.nSmp
     nClass=DataSet.nClass
