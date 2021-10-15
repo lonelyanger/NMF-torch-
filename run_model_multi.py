@@ -32,12 +32,12 @@ if __name__ == "__main__":
     for v in range(DataSet.view_num):
         print("view ",v," : ",DataSet.X[v].shape)
 
-    model=MultiNet.NMF(DataSet.view_num,DataSet.views_feadim,DataSet.nSmp,DataSet.nClass)
+    model=MultiNet.MultiNMF(DataSet.view_num,DataSet.views_feadim,DataSet.nSmp,DataSet.nClass)
  
 
     NetInput=DataSet.X
     print("--------Pretrain Start!----------")
-    epoch=200
+    epoch=400
     accmax=0
     for i in range(epoch):
         loss=model(NetInput,DataSet.view_num)
@@ -45,22 +45,22 @@ if __name__ == "__main__":
         model.update_params()
         # output loss
         if i%20==0:
-            H=model.getH()
+            H=model.getH().t().detach().numpy()
             print("it:",i)
-            for v in range(DataSet.view_num):
-                Hv=H[v].t().detach().numpy()
-                y_preds, scores, ACC, NMI = Clustering(Hv, DataSet.labels.ravel(), DataSet.nClass)
-                if ACC>accmax:
-                    accmax=ACC
-            print("loss is : ",loss[v].item())
+           
+            y_preds, scores, ACC, NMI = Clustering(H, DataSet.labels.ravel(), DataSet.nClass)
+            if ACC>accmax:
+                accmax=ACC
+            print("loss is : ",loss.item())
      
-    H=model.getH()
-    for v in range(DataSet.view_num):
-        Hv=H[v].t().detach().numpy()
-        y_preds, scores, ACC, NMI = Clustering(Hv, DataSet.labels.ravel(), DataSet.nClass)
-        if ACC>accmax:
-            accmax=ACC
-    print("loss is : ",loss[v].item())
+    H=model.getH().t().detach().numpy()
+
+    
+    y_preds, scores, ACC, NMI = Clustering(H, DataSet.labels.ravel(), DataSet.nClass)
+    if ACC>accmax:
+        accmax=ACC
+    print("loss is : ",loss.item())
+
     print("MAXACC is ",accmax)
     print("--------Pretrain End!----------")
 
